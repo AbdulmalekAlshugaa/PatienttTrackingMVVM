@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "348573002546",
+    "firebase_url": "https://myfirestproejct.firebaseio.com",
+    "project_id": "myfirestproejct",
+    "storage_bucket": "myfirestproejct.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348573002546:android:e50da3313b2ddb6cecc52b",
+        "android_client_info": {
+          "package_name": "com.example.osamah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348573002546-pb136enve243a8ps9pej4ggb1bh6uaj2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8WegFIuq3ayfnIP4_0Jd0q5QfrOVFVUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348573002546-pb136enve243a8ps9pej4ggb1bh6uaj2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348573002546:android:5ae5384bd4dd7bdbecc52b",
+        "android_client_info": {
+          "package_name": "com.example.trainsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348573002546-pb136enve243a8ps9pej4ggb1bh6uaj2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8WegFIuq3ayfnIP4_0Jd0q5QfrOVFVUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348573002546-pb136enve243a8ps9pej4ggb1bh6uaj2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
