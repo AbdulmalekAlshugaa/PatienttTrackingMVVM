@@ -27,6 +27,7 @@ import com.example.osamah.databinding.FragmentSignupBinding;
 import com.example.osamah.model.User;
 import com.example.osamah.view.ControllerActivity;
 import com.example.osamah.viewModel.UserViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
@@ -50,6 +51,10 @@ public class SingUpFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // user view model
+        if(FirebaseAuth.getInstance().getCurrentUser() !=null){
+            Intent intent = new Intent(getActivity(), ControllerActivity.class);
+            startActivity(intent);
+        }
 
         userViewModel  = ViewModelProviders.of(this).get(UserViewModel.class);
         userViewModel.getFirebaseUserMutableLiveData().observe(this, new Observer<FirebaseUser>() {

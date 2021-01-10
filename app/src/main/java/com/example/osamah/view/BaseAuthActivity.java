@@ -21,5 +21,7 @@ public class BaseAuthActivity extends AppCompatActivity {
 
 
 
+
+
     }
 }

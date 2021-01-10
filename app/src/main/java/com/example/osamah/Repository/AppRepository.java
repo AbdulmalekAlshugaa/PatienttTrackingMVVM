@@ -136,4 +136,5 @@ public class AppRepository {
     public MutableLiveData<SeisureModel> getSeisureModelMutableLiveData() {
         return seisureModelMutableLiveData;
     }
+
 }
