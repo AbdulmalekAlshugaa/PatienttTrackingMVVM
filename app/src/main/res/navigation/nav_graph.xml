@@ -7,30 +7,21 @@
 
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.example.osamah.Fragments.LoginFragment"
+        android:name="com.example.osamah.Fragments.SingUpFragment"
         android:label="fragment_start"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_signup" >
+
         <action
-            android:id="@+id/action_startFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
+            android:id="@+id/action_startFragment_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
     </fragment>
     <fragment
-        android:id="@+id/gameFragment"
-        android:name="com.example.osamah.Fragments.Controller_main"
-        android:label="fragment_game"
-        tools:layout="@layout/fragment_controller_main" >
+        android:id="@+id/loginFragment2"
+        android:name="com.example.osamah.Fragments.LoginFragment"
+        android:label="LoginFragment" >
         <action
-            android:id="@+id/action_gameFragment_to_endgameFragment"
-            app:destination="@id/endgameFragment"
-            app:popUpTo="@+id/startFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/endgameFragment"
-        android:name="com.example.osamah.Fragments.EndgameFragment"
-        android:label="fragment_endgame"
-        tools:layout="@layout/fragment_endgame" >
-        <action
-            android:id="@+id/action_endgameFragment_to_startFragment"
+            android:id="@+id/action_loginFragment2_to_startFragment"
             app:destination="@id/startFragment" />
     </fragment>
+
 </navigation>

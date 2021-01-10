@@ -2,12 +2,15 @@ package com.example.osamah.Repository;
 
 import android.app.Application;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.osamah.errorHandlling.ErrorHandlling;
+import com.example.osamah.model.SeisureModel;
 import com.example.osamah.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,14 +28,20 @@ public class AppRepository {
     FirebaseFirestore db;
     private MutableLiveData<User> userMutableLiveData;
 
+    private ErrorHandlling errorHandlling;
+
+    private MutableLiveData<SeisureModel> seisureModelMutableLiveData;
+
     public AppRepository(Application application) {
         this.application = application;
         // instance function
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUserMutableLiveData = new MutableLiveData<>();
+        seisureModelMutableLiveData = new MutableLiveData<>();
         // add db and user object
         db = FirebaseFirestore.getInstance();
         userMutableLiveData = new MutableLiveData<>();
+
 
     }
     // registerion function
@@ -58,6 +67,7 @@ public class AppRepository {
         return firebaseUserMutableLiveData;
     }
 
+    // complete user registeratioon
     public void addUserData(User user){
         db.collection("User").document(firebaseAuth.getCurrentUser().getUid())
                 .set(user)
@@ -76,8 +86,54 @@ public class AppRepository {
             }
         });
     }
+    // is uer login
+    public boolean isLogin(String UID){
+        if(UID !=null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 
     public MutableLiveData<User> getUserMutableLiveData() {
         return userMutableLiveData;
+    }
+
+    // login repo
+    public void LoginusingEmaailAndPassword (String email, String password){
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    firebaseUserMutableLiveData.postValue(firebaseAuth.getCurrentUser());
+                }else {
+                    Toast.makeText(application,"Something went wrong",Toast.LENGTH_LONG);
+
+                }
+            }
+        });
+    }
+    // Sesiure model
+    public void addSesiureModel(SeisureModel seisureModel){
+        db.collection("Seizure").document(firebaseAuth.getCurrentUser().getUid()).set(seisureModel)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            seisureModelMutableLiveData.setValue(seisureModel);
+                        }else {
+                            Toast.makeText(application, "Something went wrong ",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+
+    }
+    //
+
+
+    public MutableLiveData<SeisureModel> getSeisureModelMutableLiveData() {
+        return seisureModelMutableLiveData;
     }
 }

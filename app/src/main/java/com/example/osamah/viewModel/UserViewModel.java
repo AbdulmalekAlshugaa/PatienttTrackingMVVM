@@ -42,6 +42,10 @@ public class UserViewModel extends AndroidViewModel {
     public void addUserdetails(User user){
         appRepository.addUserData(user);
     }
+    public void UserLogin(String  email , String password){
+        appRepository.LoginusingEmaailAndPassword(email,password);
+    }
+
 
 
     public MutableLiveData<User> getUserMutableLiveData() {
