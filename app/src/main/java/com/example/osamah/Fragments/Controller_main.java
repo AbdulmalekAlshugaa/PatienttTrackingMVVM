@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,6 +54,8 @@ public class Controller_main extends Fragment {
         view =  inflater.inflate(R.layout.fragment_controller_main, container, false);
         ListDataView = view.findViewById(R.id.ListJobPost);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.ContinerRefersh);
+        // osamah
+        TextView get = view.findViewById(R.id.JobDiscover);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
@@ -68,6 +71,8 @@ public class Controller_main extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
          navController = Navigation.findNavController(view);
+         // osama update ui
+
 
 
 //        Button button = view.findViewById(R.id.finishGameButton);
