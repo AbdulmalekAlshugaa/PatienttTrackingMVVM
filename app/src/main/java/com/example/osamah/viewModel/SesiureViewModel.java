@@ -32,4 +32,8 @@ public class SesiureViewModel extends AndroidViewModel {
     public MutableLiveData<SeisureModel> getSeisureModelMutableLiveData() {
         return seisureModelMutableLiveData;
     }
+    public void getSensiure(String UID){
+        appRepository.fetchSizureData(UID);
+
+    }
 }

@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -136,5 +137,28 @@ public class AppRepository {
     public MutableLiveData<SeisureModel> getSeisureModelMutableLiveData() {
         return seisureModelMutableLiveData;
     }
+
+    public void fetchSizureData(String UID){
+        db.collection("Seizure").document(UID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            DocumentSnapshot document = task.getResult();
+                            SeisureModel seisureModel = document.toObject(SeisureModel.class);
+                            seisureModelMutableLiveData.setValue(seisureModel);
+                        }else {
+                            Toast.makeText(application,"Erro while fetching",Toast.LENGTH_LONG).show();
+                        }
+
+
+                    }
+
+                });
+    }
+
+
+
 
 }
