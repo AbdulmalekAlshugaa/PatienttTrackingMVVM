@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.example.osamah.view.ControllerActivity;
 import com.example.osamah.viewModel.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.irozon.sneaker.Sneaker;
 
 
 /**
@@ -39,6 +41,7 @@ public class SingUpFragment extends Fragment {
     private View view;
     FragmentSignupBinding binding;
     private UserViewModel userViewModel;
+    private String UserType;
     private static final String TAG = "LoginFragment";
     public SingUpFragment() {
 
@@ -55,14 +58,35 @@ public class SingUpFragment extends Fragment {
             Intent intent = new Intent(getActivity(), ControllerActivity.class);
             startActivity(intent);
         }
+        // get user type
+        binding.rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.pation:
+                        UserType = "P";
+                        break;
+                    case R.id.Doc:
+                        UserType = "Doc";
+                        break;
+                }
+
+            }
+        });
+
 
         userViewModel  = ViewModelProviders.of(this).get(UserViewModel.class);
         userViewModel.getFirebaseUserMutableLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if(firebaseUser != null){
-                    User user = new User("Abdulmalik ALshugaa",binding.EmailAddressSigup.getText().toString(),binding.PasswordCreate.getText().toString()
-                            ,"Ahmed","Ahme");
+                    String email = binding.EmailAddressSigup.getText().toString();
+                    String fullName = binding.UserName.getText().toString();
+                    String password = binding.PasswordCreate.getText().toString();
+                    String cPassword = binding.ConfirmPassword.getText().toString();
+                    String ContactNumber = binding.ContactNumber.getText().toString();
+                  User  user = new User(fullName,email,password
+                            ,ContactNumber,UserType);
                     userViewModel.addUserdetails(user);
                 }else {
                     Log.d(TAG, "onChanged: Error ");
@@ -105,9 +129,34 @@ public class SingUpFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // pass params
-                User user = new User("Abdulmalik ALshugaa",binding.EmailAddressSigup.getText().toString(),binding.PasswordCreate.getText().toString()
-                        ,"Ahmed","Ahme");
-                userViewModel.register(user);
+                // check if some text is empty
+                String email = binding.EmailAddressSigup.getText().toString();
+                String fullName = binding.UserName.getText().toString();
+                String password = binding.PasswordCreate.getText().toString();
+                String cPassword = binding.ConfirmPassword.getText().toString();
+                String ContactNumber = binding.ContactNumber.getText().toString();
+                User user = new User();
+                if(!user.isPasswordMatchAnotherPassword(password,cPassword)){
+                    Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
+                            .setTitle("Password")
+                            .setMessage("Please ensure that password and confirm password are match")
+                            .sneakWarning();
+                }
+
+
+                if(!email.isEmpty() || !fullName.isEmpty() || !password.isEmpty() || !ContactNumber.isEmpty()){
+                     user = new User(fullName,email,password
+                            ,ContactNumber,UserType);
+                    userViewModel.register(user);
+
+                }else {
+                  //  Snacker
+                    Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
+                            .setTitle("Error")
+                            .setMessage("Please ensure all your inserted data is correct")
+                            .sneakError();
+                }
+
 
 
             }

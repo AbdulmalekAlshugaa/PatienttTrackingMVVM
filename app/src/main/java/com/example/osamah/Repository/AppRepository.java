@@ -28,10 +28,11 @@ public class AppRepository {
     private MutableLiveData<FirebaseUser> firebaseUserMutableLiveData;
     FirebaseFirestore db;
     private MutableLiveData<User> userMutableLiveData;
+    private MutableLiveData<String> errorHandlling;
 
-    private ErrorHandlling errorHandlling;
 
     private MutableLiveData<SeisureModel> seisureModelMutableLiveData;
+    private static final String TAG = "AppRepository";
 
     public AppRepository(Application application) {
         this.application = application;
@@ -39,6 +40,8 @@ public class AppRepository {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUserMutableLiveData = new MutableLiveData<>();
         seisureModelMutableLiveData = new MutableLiveData<>();
+        // Error Handlling
+        errorHandlling = new MutableLiveData<>();
         // add db and user object
         db = FirebaseFirestore.getInstance();
         userMutableLiveData = new MutableLiveData<>();
@@ -78,6 +81,8 @@ public class AppRepository {
                         if(task.isSuccessful()){
                             // from here u can get the user data
                             userMutableLiveData.postValue(user);
+                        }else {
+
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -106,12 +111,15 @@ public class AppRepository {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
                 if(task.isSuccessful()){
                     firebaseUserMutableLiveData.postValue(firebaseAuth.getCurrentUser());
                 }else {
-                    Toast.makeText(application,"Something went wrong",Toast.LENGTH_LONG);
-
+                    Toast.makeText(application, "Something went wrong ",Toast.LENGTH_LONG).show();
+                    errorHandlling.setValue(task.getException().getMessage().toString());
                 }
+
+
             }
         });
     }

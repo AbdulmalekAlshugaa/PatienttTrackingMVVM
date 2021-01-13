@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/bottomSheetContLogin"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="21dp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+          />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Message Sent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/colorAccent"
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Error "
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/pastActive"
+
+            android:textSize="14dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Our support team will get back to you within 1-3 working day "
+
+            android:lines="3"
+
+            android:layout_gravity="center"
+            android:gravity="center"
+
+            />
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+           >
+
+            <Button
+                android:id="@+id/DismissButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Dissmis"
+                android:textColor="#ffffff"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="2dp"
+                android:padding="15dp"
+                android:textAllCaps="false"
+                android:gravity="center_horizontal"
+                android:background="@drawable/rect_orange" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -75,5 +75,7 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.1'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    // message handlling
+    implementation 'com.irozon.sneaker:sneaker:2.0.0'
 }
 

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +41,8 @@ public class LoginFragment extends Fragment {
                     // got to maibn
                     Intent intent = new Intent(getActivity(), ControllerActivity.class);
                     startActivity(intent);
+                }else {
+                    Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_LONG);
                 }
             }
         });
