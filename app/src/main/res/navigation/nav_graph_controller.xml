@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/seizure_content">
+    app:startDestination="@id/camare">
 
     <fragment
         android:id="@+id/gameFragment"
@@ -22,5 +22,14 @@
         <action
             android:id="@+id/action_seizure_content_to_gameFragment"
             app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/camare"
+        android:name="com.example.osamah.Fragments.camare"
+        android:label="fragment_camare"
+        tools:layout="@layout/fragment_camare" >
+        <action
+            android:id="@+id/action_camare_to_seizure_content"
+            app:destination="@id/seizure_content" />
     </fragment>
 </navigation>
