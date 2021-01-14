@@ -59,20 +59,20 @@ public class SingUpFragment extends Fragment {
             startActivity(intent);
         }
         // get user type
-        binding.rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
-                    case R.id.pation:
-                        UserType = "P";
-                        break;
-                    case R.id.Doc:
-                        UserType = "Doc";
-                        break;
-                }
-
-            }
-        });
+//        binding.rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//                switch (i){
+//                    case R.id.pation:
+//                        UserType = "P";
+//                        break;
+//                    case R.id.Doc:
+//                        UserType = "Doc";
+//                        break;
+//                }
+//
+//            }
+//        });
 
 
         userViewModel  = ViewModelProviders.of(this).get(UserViewModel.class);

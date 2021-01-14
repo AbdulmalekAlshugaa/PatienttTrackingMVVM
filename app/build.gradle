@@ -78,5 +78,6 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     // message handlling
     implementation 'com.irozon.sneaker:sneaker:2.0.0'
+    implementation 'com.github.michaldrabik:classicmaterialtimepicker:1.0.0'
 }
 
