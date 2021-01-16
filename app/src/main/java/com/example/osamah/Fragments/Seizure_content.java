@@ -1,6 +1,8 @@
 package com.example.osamah.Fragments;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,17 +25,29 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 
+import com.example.osamah.R;
 import com.example.osamah.databinding.CamreContentBinding;
 import com.example.osamah.model.SeisureModel;
 import com.example.osamah.view.ControllerActivity;
 import com.example.osamah.viewModel.SesiureViewModel;
 import com.example.osamah.viewModel.UserViewModel;
+import com.google.android.material.snackbar.Snackbar;
+import com.irozon.sneaker.Sneaker;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.text.ParseException;
+import java.util.Calendar;
+
+import jrizani.jrspinner.JRSpinner;
+
 import static android.app.Activity.RESULT_OK;
 import static com.example.osamah.Fragments.camare.REQUEST_VIDEO_CAPTURE;
+import static com.example.osamah.helper.constants.Activities;
+import static com.example.osamah.helper.constants.Location;
+import static com.example.osamah.helper.constants.Triggers;
 
 
 public class Seizure_content extends Fragment {
@@ -40,6 +56,8 @@ public class Seizure_content extends Fragment {
     private Uri uri_image;
     private SesiureViewModel sesiureViewModel;
     private static final String TAG = "Seizure_content";
+    String mTrigger, mActivity, mLocation;
+    String getDate,getTime;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +68,11 @@ public class Seizure_content extends Fragment {
             public void onChanged(SeisureModel seisureModel) {
                 if(seisureModel.getDate() !=null){
                     // shows successfull message
-                    Toast.makeText(getActivity(),"Added",Toast.LENGTH_LONG).show();
+
+                    Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
+                            .setTitle("Added")
+                            .setMessage("Data has added successfully")
+                            .sneakSuccess();
                 }else {
                     Toast.makeText(getActivity(),"Error",Toast.LENGTH_LONG).show();
                 }
@@ -66,15 +88,13 @@ public class Seizure_content extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = CamreContentBinding.inflate(inflater, container,false);
         view = binding.getRoot();
+        binding.Trigger.setItems(Triggers);
+        binding.Location.setItems(Location);
+        binding.Activity.setItems(Activities);
+   ;
+        // set li
 
-        binding.Save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: ");
-                SeisureModel seisureModel = new SeisureModel("URl","JASD","asnd","AS]KD","SAD","OIAsd","iASD","OIASnd");
-                sesiureViewModel.addSeisure(seisureModel);
-            }
-        });
+
         return view;
     }
 
@@ -90,6 +110,94 @@ public class Seizure_content extends Fragment {
                 } else {
                     dispatchTakeVideoIntent();
                 }
+            }
+        });
+        binding.Trigger.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+             mTrigger = String.valueOf(item);
+            }
+        });
+        binding.Activity.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                mActivity = String.valueOf(item);
+            }
+        });
+
+        binding.Location.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                mLocation = String.valueOf(item);
+            }
+        });
+        binding.Date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+               int mYear = c.get(Calendar.YEAR);
+              int  mMonth = c.get(Calendar.MONTH);
+             int   mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                        R.style.DialogTheme,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                 getDate = year + "-" + monthOfYear + "-" + dayOfMonth;
+                                 binding.Date.setText(getDate);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+        binding.Time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar myCalender = Calendar.getInstance();
+                int hour = myCalender.get(Calendar.HOUR_OF_DAY);
+                int minute = myCalender.get(Calendar.MINUTE);
+
+
+                TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        if (view.isShown()) {
+                            myCalender.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            myCalender.set(Calendar.MINUTE, minute);
+                            getTime = String.valueOf(hourOfDay +"\t:"+ minute);
+                            binding.Time.setText(getTime);
+
+
+                        }
+                    }
+                };
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, hour, minute, true);
+                timePickerDialog.setTitle("Choose hour:");
+                //timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                timePickerDialog.show();
+            }
+        });
+
+        binding.Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: ");
+                String note =  binding.Note.getText().toString();
+                String  leanth = binding.leanth.getText().toString();
+                if(note.isEmpty() || leanth.isEmpty()){
+                    Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
+                            .setTitle("Error")
+                            .setMessage("seems some filed are empty")
+                            .sneakError();
+                }else {
+                    SeisureModel seisureModel = new SeisureModel("URl",getDate,getTime,leanth,mTrigger,mActivity,mLocation,note);
+                    sesiureViewModel.addSeisure(seisureModel);
+                }
+
+
             }
         });
 

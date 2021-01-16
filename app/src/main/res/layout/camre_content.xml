@@ -1,158 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <VideoView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/black"
-                android:layout_marginTop="25dp"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp">
-
-                <EditText
-                    android:id="@+id/UserName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/rect_gray"
-                    android:hint="Date"
-                    android:padding="15dp"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="17sp" />
-
-                <EditText
-                    android:id="@+id/EmailAddressSigup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/rect_gray"
-                    android:hint="Time"
-                    android:inputType="textEmailAddress"
-                    android:padding="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="17sp" />
-
-
-                <EditText
-                    android:id="@+id/ContactNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/rect_gray"
-                    android:hint="Seizure peroid in seconds"
-                    android:inputType="number"
-                    android:padding="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="17sp" />
-                <EditText
-                    android:id="@+id/PasswordCreate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/rect_gray"
-                    android:hint="Location"
-                    android:inputType="textPassword"
-                    android:padding="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="17sp" />
-
-                <EditText
-                    android:id="@+id/ConfirmPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/rect_gray"
-                    android:hint="Note"
-                    android:inputType="textPassword"
-                    android:padding="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="17sp" />
-
-
-
-
-
-            </LinearLayout>
-
-
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:orientation="horizontal"
+        >
 
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <VideoView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+                    android:keepScreenOn="true"
+                  />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
                     android:orientation="vertical">
 
 
-
-                    <View
+                    <EditText
+                        android:id="@+id/Date"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#4a4a4a" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rect_gray"
+                        android:hint="Date"
+                        android:inputType="textEmailAddress"
+                        android:padding="15dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/Time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rect_gray"
+                        android:hint="Time"
+                        android:inputType="textEmailAddress"
+                        android:padding="15dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="17sp" />
+
+
+                    <EditText
+                        android:id="@+id/leanth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rect_gray"
+                        android:hint="Seizure Leanth"
+                        android:inputType="number"
+                        android:padding="15dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="17sp" />
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/Trigger"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rect_gray"
+                        android:drawableRight="@drawable/ic_icons8_plus"
+                        android:hint="Add Trigger "
+                        android:padding="15dp"
+
+                        />
+
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/Location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rect_gray"
+                        android:drawableRight="@drawable/ic_icons8_plus"
+                        android:hint="Location "
+                        />
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/Activity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rect_gray"
+                        android:drawableRight="@drawable/ic_icons8_plus"
+                        android:hint="Activity"
+                         />
+
+
+                    <EditText
+                        android:id="@+id/Note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:autofillHints="@string/app_name"
+                        android:background="@drawable/rect_gray"
+                        android:hint="note"
+                        android:inputType="textMultiLine"
+                        android:lines="2"
+                        android:padding="15dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="17sp" />
 
                 </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#4a4a4a" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/Save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/rect_orange"
+                    android:gravity="center_horizontal"
+                    android:padding="15dp"
+                    android:text="Save"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginRight="25dp"
+                    android:padding="15dp"
+
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/Save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:background="@drawable/rect_orange"
-                android:gravity="center_horizontal"
-                android:padding="15dp"
-                android:text="Save"
-                android:textAllCaps="false"
-                android:textColor="#ffffff"
-                android:textSize="15sp" />
 
-        </LinearLayout>
+    </ScrollView>
 
-
-
-    </RelativeLayout>
 
 </FrameLayout>
