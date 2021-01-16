@@ -4,23 +4,26 @@
 
         <group android:id="@+id/grouoButton"
             android:checkableBehavior="single">
-                <item android:id="@+id/discover"
-                    android:title="Discover"
-                    android:menuCategory="secondary"
 
-                    app:showAsAction="always|withText" />
+<!--                <item android:id="@+id/discover"-->
+<!--                    android:title="Discover"-->
+<!--                    android:menuCategory="secondary"-->
+<!--                    app:showAsAction="always|withText" />-->
 
-                <item android:id="@+id/myJobs"
+                <item android:id="@+id/seizure_content"
                     android:menuCategory="secondary"
                     android:title="Snap"
-
                     app:showAsAction="always|withText" />
 
 
-        <item android:id="@+id/notification"
-            android:title="Notifications"
-            android:menuCategory="secondary"
+            <item android:id="@+id/chart"
+                android:title="chart"
+                android:menuCategory="secondary"
+                app:showAsAction="always|withText" />
 
+        <item android:id="@+id/list_posts"
+            android:title="History"
+            android:menuCategory="secondary"
             app:showAsAction="always|withText" />
                 <item
                     android:menuCategory="secondary"

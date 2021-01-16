@@ -26,12 +26,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 
 import com.example.osamah.R;
-import com.example.osamah.databinding.CamreContentBinding;
+
+
 import com.example.osamah.model.SeisureModel;
 import com.example.osamah.view.ControllerActivity;
 import com.example.osamah.viewModel.SesiureViewModel;
 import com.example.osamah.viewModel.UserViewModel;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.irozon.sneaker.Sneaker;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.squareup.picasso.Picasso;
@@ -51,7 +53,7 @@ import static com.example.osamah.helper.constants.Triggers;
 
 
 public class Seizure_content extends Fragment {
-    CamreContentBinding binding;
+  com.example.osamah.databinding.CamreContentBinding binding;
     private View view;
     private Uri uri_image;
     private SesiureViewModel sesiureViewModel;
@@ -86,7 +88,7 @@ public class Seizure_content extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = CamreContentBinding.inflate(inflater, container,false);
+        binding = com.example.osamah.databinding.CamreContentBinding.inflate(inflater, container,false);
         view = binding.getRoot();
         binding.Trigger.setItems(Triggers);
         binding.Location.setItems(Location);
@@ -193,7 +195,7 @@ public class Seizure_content extends Fragment {
                             .setMessage("seems some filed are empty")
                             .sneakError();
                 }else {
-                    SeisureModel seisureModel = new SeisureModel("URl",getDate,getTime,leanth,mTrigger,mActivity,mLocation,note);
+                    SeisureModel seisureModel = new SeisureModel("URl",getDate,getTime,leanth,mTrigger,mActivity,mLocation,note, FirebaseAuth.getInstance().getUid());
                     sesiureViewModel.addSeisure(seisureModel);
                 }
 

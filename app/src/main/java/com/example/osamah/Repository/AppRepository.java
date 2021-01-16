@@ -18,9 +18,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class AppRepository {
     private Application application;
@@ -125,18 +131,20 @@ public class AppRepository {
     }
     // Sesiure model
     public void addSesiureModel(SeisureModel seisureModel){
-        db.collection("Seizure").document(firebaseAuth.getCurrentUser().getUid()).set(seisureModel)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Seizure").add(seisureModel)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
                         if(task.isSuccessful()){
-                            seisureModelMutableLiveData.setValue(seisureModel);
-                        }else {
-                            Toast.makeText(application, "Something went wrong ",Toast.LENGTH_LONG).show();
+                            if(task.isSuccessful()){
+
+                                seisureModelMutableLiveData.setValue(seisureModel);
+                            }else {
+                                Toast.makeText(application, "Something went wrong ",Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });
-
 
     }
     //
@@ -147,22 +155,35 @@ public class AppRepository {
     }
 
     public void fetchSizureData(String UID){
-        db.collection("Seizure").document(UID)
+        db.collection("Seizure")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
-                            DocumentSnapshot document = task.getResult();
-                            SeisureModel seisureModel = document.toObject(SeisureModel.class);
-                            seisureModelMutableLiveData.setValue(seisureModel);
-                        }else {
-                            Toast.makeText(application,"Erro while fetching",Toast.LENGTH_LONG).show();
-                        }
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                     if(task.isSuccessful()){
+                         ArrayList<DocumentSnapshot> snapshots = (ArrayList<DocumentSnapshot>) task.getResult().getDocuments();
+                         for (int i=0; i<snapshots.size(); i++){
+                            if (snapshots.get(i).getString("uid").equals(UID)){
+                                String date = snapshots.get(i).getString("date");
+                                String activity = snapshots.get(i).getString("activity");
+                                String location = snapshots.get(i).getString("location");
+                                String note = snapshots.get(i).getString("note");
+                                String seizureImage = snapshots.get(i).getString("seizureImage");
+                                String seizureLen = snapshots.get(i).getString("seizureLen");
+                                String time = snapshots.get(i).getString("time");
+                                String trigger = snapshots.get(i).getString("trigger");
+                                Log.d(TAG, "onComplete: "+trigger);
+                                SeisureModel seisureModel = new SeisureModel(seizureImage,date,time,seizureLen,trigger,activity,location,note, FirebaseAuth.getInstance().getUid());
+                                SeisureModel.getSeisureModelArrayList().add(seisureModel);
+                                seisureModelMutableLiveData.setValue(seisureModel);
+                            }
+                           //  SeisureModel seisureModel = new SeisureModel(snapshots.get(i).get("date"));
+                         }
 
+
+                     }
 
                     }
-
                 });
     }
 

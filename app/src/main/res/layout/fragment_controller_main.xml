@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/red"
+    android:background="@color/white"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -54,14 +54,14 @@
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
                 android:layout_below="@+id/ToolBarContiner"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/ContinerRefersh">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_below="@+id/ToolBarContiner"
                     android:id="@+id/ListJobPost"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"/>
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

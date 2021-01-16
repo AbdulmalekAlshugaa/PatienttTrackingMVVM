@@ -3,6 +3,7 @@ package com.example.osamah.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,9 +25,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.osamah.R;
 import com.example.osamah.adapters.SeziureList_Adapter;
 import com.example.osamah.model.SeisureModel;
+import com.example.osamah.viewModel.SesiureViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.irozon.sneaker.Sneaker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -36,7 +43,9 @@ public class Controller_main extends Fragment {
     private RecyclerView ListDataView;
     SwipeRefreshLayout mSwipeRefreshLayout;
     private View view;
+    private SesiureViewModel sesiureViewModel;
 
+    private static final String TAG = "Controller_main";
     NavController navController;
     public Controller_main() {
         // Required empty public constructor
@@ -45,6 +54,17 @@ public class Controller_main extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sesiureViewModel  = ViewModelProviders.of(this).get(SesiureViewModel.class);
+        sesiureViewModel.getSeisureModelMutableLiveData().observe(this, new Observer<SeisureModel>() {
+            @Override
+            public void onChanged(SeisureModel seisureModel) {
+                seisureModelArrayList.add(seisureModel);
+                seziureList_adapter.notifyDataSetChanged();
+
+                }
+
+
+        });
     }
 
     @Override
@@ -72,6 +92,7 @@ public class Controller_main extends Fragment {
         super.onViewCreated(view, savedInstanceState);
          navController = Navigation.findNavController(view);
          // osama update ui
+        sesiureViewModel.getSensiure(FirebaseAuth.getInstance().getUid());
 
 
 

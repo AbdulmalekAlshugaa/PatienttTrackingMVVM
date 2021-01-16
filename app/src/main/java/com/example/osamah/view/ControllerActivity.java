@@ -35,40 +35,9 @@ public class ControllerActivity extends AppCompatActivity {
                 .findFragmentById(R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView,
                 navHostFragment.getNavController());
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.camare:
-                        dispatchTakeVideoIntent();
-                    case R.id.discover:
 
-                        return true;
-                    case R.id.myJobs:
-
-                        return true;
-                    case R.id.notification:
-
-                        return true;
-
-                }
-
-
-                return true;
-            }
-        });
     }
-    private void dispatchTakeVideoIntent() {
-        if (ContextCompat.checkSelfPermission(ControllerActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(ControllerActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-            Toast.makeText(ControllerActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
-        } else {
-            Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
-            }
-        }
-    }
+
 
 
     @Override

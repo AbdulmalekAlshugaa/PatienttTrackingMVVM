@@ -7,34 +7,22 @@
     app:startDestination="@id/seizure_content">
 
     <fragment
-        android:id="@+id/gameFragment"
+        android:id="@+id/list_posts"
         android:name="com.example.osamah.Fragments.Controller_main"
         android:label="fragment_game"
-        tools:layout="@layout/fragment_controller_main" >
-        <action
-            android:id="@+id/action_gameFragment_to_seizure_content"
-            app:destination="@id/seizure_content" />
-    </fragment>
+        tools:layout="@layout/fragment_controller_main" />
     <fragment
         android:id="@+id/seizure_content"
         android:name="com.example.osamah.Fragments.Seizure_content"
-        android:label="Seizure_content" >
-        <action
-            android:id="@+id/action_seizure_content_to_gameFragment"
-            app:destination="@id/gameFragment" />
-    </fragment>
+        android:label="Seizure_content" />
     <fragment
         android:id="@+id/camare"
         android:name="com.example.osamah.Fragments.camare"
         android:label="fragment_camare"
-        tools:layout="@layout/fragment_camare" >
-        <action
-            android:id="@+id/action_camare_to_seizure_content"
-            app:destination="@id/seizure_content" />
-    </fragment>
+        tools:layout="@layout/fragment_camare" />
     <fragment
-        android:id="@+id/list_posts"
-        android:name="com.example.osamah.list_posts"
-        android:label="fragment_list_posts"
-        tools:layout="@layout/fragment_list_posts" />
+        android:id="@+id/chart"
+        android:name="com.example.osamah.Fragments.Chart"
+        android:label="fragment_chart"
+        tools:layout="@layout/fragment_chart" />
 </navigation>
