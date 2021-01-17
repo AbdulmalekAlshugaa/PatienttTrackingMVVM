@@ -25,4 +25,8 @@
         android:name="com.example.osamah.Fragments.Chart"
         android:label="fragment_chart"
         tools:layout="@layout/fragment_chart" />
+    <fragment
+        android:id="@+id/graphs"
+        android:name="com.example.osamah.Fragments.Graphs"
+        android:label="Graphs" />
 </navigation>
