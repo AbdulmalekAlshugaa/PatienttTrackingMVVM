@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
@@ -22,12 +25,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class ControllerActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+
     static final int REQUEST_VIDEO_CAPTURE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controller);
         setUpNavigation();
+
     }
     public void setUpNavigation(){
         bottomNavigationView =findViewById(R.id.PartimerBottomMenu);

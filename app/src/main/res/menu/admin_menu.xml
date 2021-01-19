@@ -2,38 +2,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <group android:id="@+id/grouoButton"
-            android:checkableBehavior="single">
-
-<!--                <item android:id="@+id/discover"-->
-<!--                    android:title="Discover"-->
-<!--                    android:menuCategory="secondary"-->
-<!--                    app:showAsAction="always|withText" />-->
-
-                <item android:id="@+id/seizure_content"
-                    android:menuCategory="secondary"
-                    android:title="Snap"
-                    app:showAsAction="always|withText" />
-
-
-            <item android:id="@+id/chart"
-                android:title="chart"
-                android:menuCategory="secondary"
-                app:showAsAction="always|withText" />
-
-        <item android:id="@+id/list_posts"
-            android:title="History"
+    <group
+        android:id="@+id/grouoButton"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/seizure_content"
             android:menuCategory="secondary"
+            android:title="profile"
+            android:icon="@drawable/ic_baseline_person_24"
             app:showAsAction="always|withText" />
-                <item
-                    android:menuCategory="secondary"
-                    android:id="@+id/camare"
-                    android:title="camare"
-                    app:showAsAction="always|withText"
-                    />
+        <item
+            android:id="@+id/graphs"
+            android:menuCategory="secondary"
+            android:title="chart"
+            android:icon="@drawable/ic_baseline_share_arrival_time_24"
+            app:showAsAction="always|withText" />
 
-
-
-        </group>
+        <item
+            android:id="@+id/list_posts"
+            android:menuCategory="secondary"
+            android:title="History"
+            android:icon="@drawable/ic_baseline_access_time_24"
+            app:showAsAction="always|withText" />
+        <item
+            android:id="@+id/camare"
+            android:menuCategory="secondary"
+            android:title="camare"
+            android:icon="@drawable/ic_baseline_camera_alt_24"
+            app:showAsAction="always|withText" />
+    </group>
 
 </menu>

@@ -29,4 +29,9 @@
         android:id="@+id/graphs"
         android:name="com.example.osamah.Fragments.Graphs"
         android:label="Graphs" />
+    <fragment
+        android:id="@+id/picechart2"
+        android:name="com.example.osamah.picechart"
+        android:label="fragment_picechart2"
+        tools:layout="@layout/fragment_picechart2" />
 </navigation>

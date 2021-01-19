@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:clickable="true"
-    android:focusable="true"
+    android:layout_gravity="center"
     android:orientation="vertical">
 
 
@@ -47,22 +46,27 @@
     </LinearLayout>
 
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
+        <ImageView
+            android:layout_margin="12sp"
+            android:id="@+id/Time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Time"
+           android:src="@drawable/timeserise"
             android:textColor="@color/white"/>
 
 
-        <Button
+        <ImageView
+            android:layout_margin="12sp"
+            android:id="@+id/piCheart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Picehart"
+            android:src="@drawable/piechart"
             android:textColor="@color/white"/>
     </LinearLayout>
 
