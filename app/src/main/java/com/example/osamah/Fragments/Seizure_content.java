@@ -29,24 +29,17 @@ import com.example.osamah.R;
 
 
 import com.example.osamah.model.SeisureModel;
-import com.example.osamah.view.ControllerActivity;
 import com.example.osamah.viewModel.SesiureViewModel;
-import com.example.osamah.viewModel.UserViewModel;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.irozon.sneaker.Sneaker;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.text.ParseException;
 import java.util.Calendar;
 
-import jrizani.jrspinner.JRSpinner;
-
 import static android.app.Activity.RESULT_OK;
-import static com.example.osamah.Fragments.camare.REQUEST_VIDEO_CAPTURE;
+import static com.example.osamah.Fragments.CamareFragmen.REQUEST_VIDEO_CAPTURE;
 import static com.example.osamah.helper.constants.Activities;
 import static com.example.osamah.helper.constants.Location;
 import static com.example.osamah.helper.constants.Triggers;
