@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.irozon.sneaker.Sneaker;
 
 import java.util.ArrayList;
 
@@ -78,7 +79,11 @@ public class LoginFragment extends Fragment {
 
 
                 }else {
-                    Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_LONG);
+                    Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
+                            .setTitle("Error")
+                            .setMessage("Something went wrong")
+                            .sneakError();
+
                 }
             }
         });

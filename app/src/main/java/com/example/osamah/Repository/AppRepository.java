@@ -35,8 +35,6 @@ public class AppRepository {
     FirebaseFirestore db;
     private MutableLiveData<User> userMutableLiveData;
     private MutableLiveData<String> errorHandlling;
-
-
     private MutableLiveData<SeisureModel> seisureModelMutableLiveData;
     private static final String TAG = "AppRepository";
 

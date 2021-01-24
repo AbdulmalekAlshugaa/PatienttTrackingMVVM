@@ -24,6 +24,7 @@ public class DoctorActivites extends AppCompatActivity {
     private UserListAdapter mPostsAdapter; // Adapter
     private RecyclerView ListDataView; // View Items
     FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,7 @@ public class DoctorActivites extends AppCompatActivity {
 
     }
 
-    void fetchUserData(){
+    void fetchUserData() {
         db.collection("User")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -56,11 +57,16 @@ public class DoctorActivites extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             ArrayList<DocumentSnapshot> snapshots = (ArrayList<DocumentSnapshot>) task.getResult().getDocuments();
                             for (int i = 0; i < snapshots.size(); i++) {
-                                String FullAName = snapshots.get(i).getString("fullName");
-                                User user = new User();
-                                user.setFullName(FullAName);
+                                String userType = snapshots.get(i).getString("confirmPhoneNumber");
+                                if (userType.equals("P")) {
+                                    String FullAName = snapshots.get(i).getString("fullName");
+                                    String email = snapshots.get(i).getString("email");
+                                    User user = new User();
+                                    user.setFullName(FullAName);
+                                    user.setEmail(email);
 
-                                jobPostslists.add(user);
+                                    jobPostslists.add(user);
+                                }
 
 
                                 //  SeisureModel seisureModel = new SeisureModel(snapshots.get(i).get("date"));

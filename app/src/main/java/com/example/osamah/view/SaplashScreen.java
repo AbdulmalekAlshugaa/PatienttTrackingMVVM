@@ -38,7 +38,7 @@ public class SaplashScreen extends AppCompatActivity {
             public void run(){
                 try {
                     sleep(1000);
-                        Intent intent = new Intent(getApplicationContext(), DoctorActivites.class);
+                        Intent intent = new Intent(getApplicationContext(), ControllerActivity.class);
                         startActivity(intent);
                         finish();
 

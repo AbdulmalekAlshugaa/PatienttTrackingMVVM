@@ -39,4 +39,9 @@
         android:name="com.example.osamah.Fragments.Settings"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/notifications"
+        android:name="com.example.osamah.notifications"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
 </navigation>
