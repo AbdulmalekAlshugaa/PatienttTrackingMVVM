@@ -24,12 +24,15 @@
             android:title="History"
             android:icon="@drawable/ic_baseline_access_time_24"
             app:showAsAction="always|withText" />
+
+
         <item
-            android:id="@+id/camare"
+            android:id="@+id/settings"
             android:menuCategory="secondary"
-            android:title="camare"
-            android:icon="@drawable/ic_baseline_camera_alt_24"
+            android:title="logout"
+            android:icon="@drawable/ic_baseline_login_24"
             app:showAsAction="always|withText" />
+
     </group>
 
 </menu>

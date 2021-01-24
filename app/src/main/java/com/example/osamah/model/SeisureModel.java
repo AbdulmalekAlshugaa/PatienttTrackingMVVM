@@ -10,9 +10,12 @@ public class SeisureModel {
     private static  ArrayList<SeisureModel> seisureModelArrayList = new ArrayList<>();
     private String UID;
 
+    
 
 
-    public SeisureModel(String seizureImage, String date, String time, String seizureLen, String trigger, String activity, String location, String note, String UID) {
+
+    public SeisureModel(String seizureImage, String date, String time, String seizureLen, String trigger,
+                        String activity, String location, String note, String UID) {
         this.seizureImage = seizureImage;
         this.date = date;
         this.time = time;
@@ -22,6 +25,7 @@ public class SeisureModel {
         this.location = location;
         this.note = note;
         this.UID = UID;
+
     }
 
     public String getUID() {

@@ -43,6 +43,7 @@ public class SingUpFragment extends Fragment {
     private UserViewModel userViewModel;
     private String UserType;
     private static final String TAG = "LoginFragment";
+
     public SingUpFragment() {
 
 
@@ -54,45 +55,31 @@ public class SingUpFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // user view model
-        if(FirebaseAuth.getInstance().getCurrentUser() !=null){
-            Intent intent = new Intent(getActivity(), ControllerActivity.class);
-            startActivity(intent);
-        }
+//        if(FirebaseAuth.getInstance().getCurrentUser() !=null){
+//            Intent intent = new Intent(getActivity(), ControllerActivity.class);
+//            startActivity(intent);
+//        }
         // get user type
-//        binding.rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//                switch (i){
-//                    case R.id.pation:
-//                        UserType = "P";
-//                        break;
-//                    case R.id.Doc:
-//                        UserType = "Doc";
-//                        break;
-//                }
-//
-//            }
-//        });
 
-
-        userViewModel  = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         userViewModel.getFirebaseUserMutableLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
-                if(firebaseUser != null){
+                if (firebaseUser != null) {
                     String email = binding.EmailAddressSigup.getText().toString();
                     String fullName = binding.UserName.getText().toString();
                     String password = binding.PasswordCreate.getText().toString();
                     String cPassword = binding.ConfirmPassword.getText().toString();
                     String ContactNumber = binding.ContactNumber.getText().toString();
-                  User  user = new User(fullName,email,password
-                            ,ContactNumber,UserType);
+                    User user = new User(fullName, email, password
+                            , ContactNumber, UserType);
                     userViewModel.addUserdetails(user);
-                }else {
+                } else {
                     Log.d(TAG, "onChanged: Error ");
                 }
             }
         });
+
 
     }
 
@@ -101,7 +88,6 @@ public class SingUpFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSignupBinding.inflate(inflater, container, false);
         view = binding.getRoot();
-
 
 
         return view;
@@ -115,10 +101,9 @@ public class SingUpFragment extends Fragment {
         userViewModel.getUserMutableLiveData().observe(getActivity(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                if(user.getFullName() !=null){
+                if (user.getFullName() != null) {
                     // replace fragment
-                    Intent intent = new Intent(getActivity(), ControllerActivity.class);
-                    startActivity(intent);
+                    Navigation.findNavController(view).navigate(R.id.loginFragment2);
 
 
                 }
@@ -136,7 +121,7 @@ public class SingUpFragment extends Fragment {
                 String cPassword = binding.ConfirmPassword.getText().toString();
                 String ContactNumber = binding.ContactNumber.getText().toString();
                 User user = new User();
-                if(!user.isPasswordMatchAnotherPassword(password,cPassword)){
+                if (!user.isPasswordMatchAnotherPassword(password, cPassword)) {
                     Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
                             .setTitle("Password")
                             .setMessage("Please ensure that password and confirm password are match")
@@ -144,19 +129,18 @@ public class SingUpFragment extends Fragment {
                 }
 
 
-                if(!email.isEmpty() || !fullName.isEmpty() || !password.isEmpty() || !ContactNumber.isEmpty()){
-                     user = new User(fullName,email,password
-                            ,ContactNumber,UserType);
+                if (!email.isEmpty() || !fullName.isEmpty() || !password.isEmpty() || !ContactNumber.isEmpty()) {
+                    user = new User(fullName, email, password
+                            , ContactNumber, UserType);
                     userViewModel.register(user);
 
-                }else {
-                  //  Snacker
+                } else {
+                    //  Snacker
                     Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
                             .setTitle("Error")
                             .setMessage("Please ensure all your inserted data is correct")
                             .sneakError();
                 }
-
 
 
             }
@@ -166,6 +150,22 @@ public class SingUpFragment extends Fragment {
             public void onClick(View view) {
                 //
                 navController.navigate(R.id.loginFragment2);
+            }
+        });
+
+        binding.rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.pation:
+                        UserType = "P";
+                        break;
+                    case R.id.Doc:
+                        UserType = "D";
+                        break;
+
+
+                }
             }
         });
     }

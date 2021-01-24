@@ -20,8 +20,16 @@ import com.example.osamah.R;
 import com.example.osamah.databinding.MloginfragmentBinding;
 import com.example.osamah.databinding.TestfragmentBinding;
 import com.example.osamah.view.ControllerActivity;
+import com.example.osamah.view.DoctorActivites;
 import com.example.osamah.viewModel.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class LoginFragment extends Fragment {
     private View view;
@@ -29,18 +37,46 @@ public class LoginFragment extends Fragment {
     private UserViewModel userViewModel;
     MloginfragmentBinding binding;
     private static final String TAG = "LoginFragment";
+    FirebaseFirestore db;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();
         userViewModel  = ViewModelProviders.of(this).get(UserViewModel.class);
         userViewModel.getFirebaseUserMutableLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if(firebaseUser !=null){
                     // got to maibn
-                    Intent intent = new Intent(getActivity(), ControllerActivity.class);
-                    startActivity(intent);
+                    db.collection("User")
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        ArrayList<DocumentSnapshot> snapshots = (ArrayList<DocumentSnapshot>) task.getResult().getDocuments();
+                                        for (int i = 0; i < snapshots.size(); i++) {
+                                            String whichUser = snapshots.get(i).getString("confirmPhoneNumber");
+                                            if(whichUser.equals("P")){
+                                                Intent intent = new Intent(getActivity(), ControllerActivity.class);
+                                                startActivity(intent);
+                                            }else {
+                                                Intent intent = new Intent(getActivity(), DoctorActivites.class);
+                                                startActivity(intent);
+                                            }
+
+
+                                            //  SeisureModel seisureModel = new SeisureModel(snapshots.get(i).get("date"));
+                                        }
+
+
+                                    }
+
+                                }
+                            });
+
+
                 }else {
                     Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_LONG);
                 }

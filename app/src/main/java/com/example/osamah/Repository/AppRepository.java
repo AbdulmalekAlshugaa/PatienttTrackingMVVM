@@ -112,13 +112,14 @@ public class AppRepository {
         return userMutableLiveData;
     }
 
-    // login repo
+    // login repo and check user type
     public void LoginusingEmaailAndPassword (String email, String password){
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if(task.isSuccessful()){
+                    // put ser
                     firebaseUserMutableLiveData.postValue(firebaseAuth.getCurrentUser());
                 }else {
                     Toast.makeText(application, "Something went wrong ",Toast.LENGTH_LONG).show();

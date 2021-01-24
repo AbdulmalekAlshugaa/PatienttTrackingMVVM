@@ -18,14 +18,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+                <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="?attr/colorPrimary"
+                        />
+
+                </com.google.android.material.appbar.AppBarLayout>
 
                 <VideoView
-                    android:id="@+id/image"
+                    android:id="@+id/videoPreview"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:adjustViewBounds="true"
-                    android:keepScreenOn="true"
-                  />
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:screenReaderFocusable="true"
+
+
+
+                     />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -20,6 +20,7 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<FirebaseUser> firebaseUserMutableLiveData;
     private MutableLiveData<User> userMutableLiveData;
     private User user;
+    private MutableLiveData<String> usertype;
 
 
     @RequiresApi(api = Build.VERSION_CODES.P)
@@ -38,22 +39,19 @@ public class UserViewModel extends AndroidViewModel {
     public void register(User user){
         appRepository.createAuser(user);
     }
-
     public void addUserdetails(User user){
         appRepository.addUserData(user);
     }
     public void UserLogin(String  email , String password){
         appRepository.LoginusingEmaailAndPassword(email,password);
     }
-
-
-
     public MutableLiveData<User> getUserMutableLiveData() {
         return userMutableLiveData;
     }
-
-
     public MutableLiveData<FirebaseUser> getFirebaseUserMutableLiveData() {
         return firebaseUserMutableLiveData;
+    }
+    public MutableLiveData<String> getUserTyeMutableLiveData() {
+        return usertype;
     }
 }

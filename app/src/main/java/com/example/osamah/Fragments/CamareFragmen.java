@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,25 +46,18 @@ import static android.app.Activity.RESULT_OK;
 public class CamareFragmen extends Fragment {
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
-
     // key to store image path in savedInstance state
     public static final String KEY_IMAGE_STORAGE_PATH = "image_path";
-
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
-
     // Bitmap sampling size
     public static final int BITMAP_SAMPLE_SIZE = 8;
-
     // Gallery directory name to store the images or videos
     public static final String GALLERY_DIRECTORY_NAME = "Hello Camera";
-
     // Image and Video file extensions
     public static final String IMAGE_EXTENSION = "jpg";
     public static final String VIDEO_EXTENSION = "mp4";
-
     private static String imageStoragePath;
-
     private TextView txtDescription;
     private ImageView imgPreview;
     private VideoView videoPreview;
@@ -74,6 +68,7 @@ public class CamareFragmen extends Fragment {
 
     static final int REQUEST_VIDEO_CAPTURE = 1;
     View view;
+    private static final String TAG = "CamareFragmen";
 
     // TODO: Rename and change types of parameters
 
@@ -242,6 +237,7 @@ public class CamareFragmen extends Fragment {
             videoPreview.setVisibility(View.VISIBLE);
             videoPreview.setVideoPath(imageStoragePath);
             // start playing
+            Log.d(TAG, "previewVideo: "+imageStoragePath);
             videoPreview.start();
         } catch (Exception e) {
             e.printStackTrace();

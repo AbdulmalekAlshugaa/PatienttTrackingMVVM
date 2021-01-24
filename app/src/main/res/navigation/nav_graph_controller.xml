@@ -34,4 +34,9 @@
         android:name="com.example.osamah.picechart"
         android:label="fragment_picechart2"
         tools:layout="@layout/fragment_picechart2" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.osamah.Fragments.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
