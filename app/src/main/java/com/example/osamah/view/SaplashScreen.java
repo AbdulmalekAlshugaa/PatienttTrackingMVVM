@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.osamah.Fragments.LoginFragment;
 import com.example.osamah.R;
 
 public class SaplashScreen extends AppCompatActivity {
@@ -38,7 +39,7 @@ public class SaplashScreen extends AppCompatActivity {
             public void run(){
                 try {
                     sleep(1000);
-                        Intent intent = new Intent(getApplicationContext(), ControllerActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), BaseAuthActivity.class);
                         startActivity(intent);
                         finish();
 

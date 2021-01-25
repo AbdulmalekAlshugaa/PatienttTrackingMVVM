@@ -258,14 +258,18 @@ private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
                             .sneakError();
                 }else {
                     mProgressDialog.show();
-                    SeisureModel seisureModel = new SeisureModel(String.valueOf("uri"),getDate,getTime,leanth,mTrigger,mActivity,mLocation,note, FirebaseAuth.getInstance().getUid());
+                    int noActvites = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNoactivites()+1;
+                    int notrigger = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNotriggers()+1;
+                    int nolocation = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNolocations()+1;
+
+                    SeisureModel seisureModel = new SeisureModel(String.valueOf("uri"),getDate,getTime,leanth,mTrigger,mActivity,mLocation,note,
+                            FirebaseAuth.getInstance().getUid()
+                    , notrigger,noActvites,nolocation);
                     sesiureViewModel.addSeisure(seisureModel);
-                    mProgressDialog.dismiss();
+
 //                    if(video!=null){
 //                        // get the video url
-//                        int noActvites = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNoactivites()+1;
-//                        int notrigger = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNotriggers()+1;
-//                        int nolocation = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNolocations()+1;
+//                        ;
 //                        UserPerf userPerf = new UserPerf(noActvites,notrigger,nolocation);
 //                        SingealtonLocalData.getInstance(getActivity()).SaveUserLocalData(userPerf);
 ////                        mProgressDialog.show();
