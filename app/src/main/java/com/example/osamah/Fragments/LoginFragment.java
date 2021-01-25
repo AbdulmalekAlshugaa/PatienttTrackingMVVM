@@ -24,6 +24,7 @@ import com.example.osamah.view.DoctorActivites;
 import com.example.osamah.viewModel.UserViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,33 +51,27 @@ public class LoginFragment extends Fragment {
             public void onChanged(FirebaseUser firebaseUser) {
                 if(firebaseUser !=null){
                     // got to maibn
-                    db.collection("User")
+                    db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        ArrayList<DocumentSnapshot> snapshots = (ArrayList<DocumentSnapshot>) task.getResult().getDocuments();
-                                        for (int i = 0; i < snapshots.size(); i++) {
-                                            String whichUser = snapshots.get(i).getString("confirmPhoneNumber");
-                                            if(whichUser.equals("P")){
-                                                Intent intent = new Intent(getActivity(), ControllerActivity.class);
-                                                startActivity(intent);
-                                            }else {
-                                                Intent intent = new Intent(getActivity(), DoctorActivites.class);
-                                                startActivity(intent);
-                                            }
-
-
-                                            //  SeisureModel seisureModel = new SeisureModel(snapshots.get(i).get("date"));
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        String whichUser = task.getResult().getString("confirmPhoneNumber");
+                                        if(whichUser.equals("P")){
+                                            Intent intent = new Intent(getActivity(), ControllerActivity.class);
+                                            startActivity(intent);
+                                        }else if (whichUser.equals("D")) {
+                                            Intent intent = new Intent(getActivity(), DoctorActivites.class);
+                                            startActivity(intent);
                                         }
-
-
+                                    }else {
+                                        Log.d(TAG, "onComplete: Error ");
                                     }
+
 
                                 }
                             });
-
 
                 }else {
                     Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
