@@ -2,6 +2,7 @@ package com.example.osamah.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.osamah.R;
 import com.example.osamah.model.SeisureModel;
+import com.example.osamah.view.ViewVideo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,6 +50,16 @@ public class SeziureList_Adapter extends RecyclerView.Adapter<SeziureList_Adapte
         Picasso.with(mCtxt).load(seisureModelArrayList.get(position).getNote()).into(holder.imageView);
         holder.mDate.setText(seisureModelArrayList.get(position).getDate());
         holder.mTime.setText(seisureModelArrayList.get(position).getTime());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mCtxt, ViewVideo.class);
+                intent.putExtra("url", seisureModelArrayList.get(position).getSeizureImage());
+                mCtxt.startActivity(intent);
+
+            }
+        });
 
     }
 

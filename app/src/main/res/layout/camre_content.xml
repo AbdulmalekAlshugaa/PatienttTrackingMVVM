@@ -31,7 +31,14 @@
                         />
 
                 </com.google.android.material.appbar.AppBarLayout>
-
+                <ProgressBar
+                    android:id="@+id/pbar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="20dp"
+                    android:max="100"
+                    />
                 <VideoView
                     android:id="@+id/videoPreview"
                     android:layout_width="match_parent"

@@ -30,8 +30,8 @@ public class picechart extends Fragment {
     View view;
     private static String TAG = "MainActivity";
 
-    private float[] yData = {25.3f, 10.6f, 66.76f, 44.32f, 46.01f, 16.89f, 23.9f};
-    private String[] xData = {"Mitch", "Jessica" , "Mohammad" , "Kelsey", "Sam", "Robert", "Ashley"};
+    private float[] yData = {25.3f, 10.6f, 66.76f};
+    private String[] xData = {"Activites", "Triggers" , "Locations" };
     PieChart pieChart;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -75,7 +75,7 @@ public class picechart extends Fragment {
         //pieChart.setCenterTextColor(Color.BLACK);
         pieChart.setHoleRadius(25f);
         pieChart.setTransparentCircleAlpha(0);
-        pieChart.setCenterText("Super Cool Chart");
+        pieChart.setCenterText("Average");
         pieChart.setCenterTextSize(10);
         addDataSet();
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -128,10 +128,7 @@ public class picechart extends Fragment {
         colors.add(Color.GRAY);
         colors.add(Color.BLUE);
         colors.add(Color.RED);
-        colors.add(Color.GREEN);
-        colors.add(Color.CYAN);
-        colors.add(Color.YELLOW);
-        colors.add(Color.MAGENTA);
+
 
         pieDataSet.setColors(colors);
 

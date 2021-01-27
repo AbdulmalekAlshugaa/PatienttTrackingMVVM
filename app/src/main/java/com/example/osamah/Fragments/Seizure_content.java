@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -44,9 +45,11 @@ import com.example.osamah.helper.CameraUtils;
 import com.example.osamah.model.SeisureModel;
 import com.example.osamah.view.SaplashScreen;
 import com.example.osamah.viewModel.SesiureViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.irozon.sneaker.Sneaker;
@@ -81,21 +84,10 @@ public class Seizure_content extends Fragment {
     String mTrigger, mActivity, mLocation;
     String getDate,getTime;
 /// video
-private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-    private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
-    // key to store image path in savedInstance state
-    public static final String KEY_IMAGE_STORAGE_PATH = "image_path";
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
-    // Bitmap sampling size
-    public static final int BITMAP_SAMPLE_SIZE = 8;
-    // Gallery directory name to store the images or videos
-    public static final String GALLERY_DIRECTORY_NAME = "Hello Camera";
-    // Image and Video file extensions
-    public static final String IMAGE_EXTENSION = "jpg";
-    public static final String VIDEO_EXTENSION = "mp4";
-    private static String imageStoragePath;
 
+    private Uri videouri;
+    private static final int REQUEST_CODE = 101;
+    private StorageReference videoref;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -109,6 +101,9 @@ private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //if()
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        videoref =storageRef.child("/videos" + "/userIntro.3gp");
+
 
         if(SingealtonLocalData.getInstance(getActivity()).getLocalUserData() == null){
             Log.d(TAG, "onCreate: we are null");
@@ -132,7 +127,7 @@ private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
                             .sneakSuccess();
                     mProgressDialog.dismiss();
                 }else {
-                    Toast.makeText(getActivity(),"Error",Toast.LENGTH_LONG).show();
+                    mProgressDialog.dismiss();
                 }
             }
         });
@@ -158,16 +153,15 @@ private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
                     Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (CameraUtils.checkPermissions(getActivity())) {
-                        captureVideo();
-                    } else {
-                        requestCameraPermission(MEDIA_TYPE_VIDEO);
-                    }
+                    //
+                    Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    startActivityForResult(intent, REQUEST_CODE);
+
                 }
             }
         });
 
-        restoreFromBundle(savedInstanceState);
+
 
         return view;
     }
@@ -257,43 +251,37 @@ private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
                             .setMessage("seems some filed are empty")
                             .sneakError();
                 }else {
+
                     mProgressDialog.show();
                     int noActvites = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNoactivites()+1;
                     int notrigger = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNotriggers()+1;
                     int nolocation = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNolocations()+1;
+                    if (videouri != null) {
+                        videoref.putFile(videouri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                videoref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        String VidUrl = uri.toString();
+                                        SeisureModel seisureModel = new SeisureModel(VidUrl,getDate,getTime,leanth,mTrigger,mActivity,mLocation,note,
+                                                FirebaseAuth.getInstance().getUid()
+                                                , notrigger,noActvites,nolocation);
+                                        sesiureViewModel.addSeisure(seisureModel);
+                                        Toast.makeText(getActivity(),"Upload complete",
+                                                Toast.LENGTH_LONG).show();
 
-                    SeisureModel seisureModel = new SeisureModel(String.valueOf("uri"),getDate,getTime,leanth,mTrigger,mActivity,mLocation,note,
-                            FirebaseAuth.getInstance().getUid()
-                    , notrigger,noActvites,nolocation);
-                    sesiureViewModel.addSeisure(seisureModel);
+                                    }
+                                });
+                            }
+                        });
 
-//                    if(video!=null){
-//                        // get the video url
-//                        ;
-//                        UserPerf userPerf = new UserPerf(noActvites,notrigger,nolocation);
-//                        SingealtonLocalData.getInstance(getActivity()).SaveUserLocalData(userPerf);
-////                        mProgressDialog.show();
-////                        SeisureModel seisureModel = new SeisureModel(String.valueOf("uri"),getDate,getTime,leanth,mTrigger,mActivity,mLocation,note, FirebaseAuth.getInstance().getUid());
-////                        sesiureViewModel.addSeisure(seisureModel);
-////                        mProgressDialog.dismiss();
-////                        StorageReference folder = FirebaseStorage.getInstance().getReference().child("ProductImages");
-////                        final StorageReference filename = folder.child(System.currentTimeMillis()+
-////                                FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
-////                        filename.putFile(video).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-////                            @Override
-////                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-////                                filename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-////                                    @Override
-////                                    public void onSuccess(Uri uri) {
-////                                        Log.d(TAG, "onSuccess: urls "+uri);
-////
-////                                    }
-////                                });
-////                            }
-////                        });
-//                        Log.d(TAG, "onClick: here is"+video.toString());
-//
-//                    }
+                    } else {
+                        Toast.makeText(getActivity(), "Nothing to upload",
+                                Toast.LENGTH_LONG).show();
+                    }
+
+
 
                 }
 
@@ -306,54 +294,15 @@ private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
 
     }
 
-    private void PickerImage() {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(getActivity());
-    }
 
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//        super.onActivityResult(requestCode, resultCode, intent);
-//        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-//            Uri videoUri = intent.getData();
-//            Log.d(TAG, "onActivityResult: "+videoUri);
-//            binding.image.setVideoURI(videoUri);
-//        }
-//    }
 
-    private void dispatchTakeVideoIntent() {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-            Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
-        } else {
-            Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            if (takeVideoIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
-            }
-        }
-    }
+
 
 
 
     //
-    private void restoreFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(KEY_IMAGE_STORAGE_PATH)) {
-                imageStoragePath = savedInstanceState.getString(KEY_IMAGE_STORAGE_PATH);
-                if (!TextUtils.isEmpty(imageStoragePath)) {
-                    if (imageStoragePath.substring(imageStoragePath.lastIndexOf(".")).equals("." + IMAGE_EXTENSION)) {
-                        previewCapturedImage();
-                    } else if (imageStoragePath.substring(imageStoragePath.lastIndexOf(".")).equals("." + VIDEO_EXTENSION)) {
-                        Uri video = Uri.parse(imageStoragePath);
-                        binding.videoPreview.setVideoURI(video);
 
-                    }
-                }
-            }
-        }
-    }
     private void requestCameraPermission(final int type) {
         Dexter.withActivity(getActivity())
                 .withPermissions(Manifest.permission.CAMERA,
@@ -364,12 +313,9 @@ private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
 
-                            if (type == MEDIA_TYPE_IMAGE) {
-                                // capture picture
-                                captureImage();
-                            } else {
-                                captureVideo();
-                            }
+
+                            //    captureVideo();
+
 
                         } else if (report.isAnyPermissionPermanentlyDenied()) {
                             showPermissionsAlert();
@@ -384,86 +330,9 @@ private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
 
                 }).check();
     }
-    private void captureImage() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        File file = CameraUtils.getOutputMediaFile(MEDIA_TYPE_IMAGE);
-        if (file != null) {
-            imageStoragePath = file.getAbsolutePath();
-        }
 
-        Uri fileUri = CameraUtils.getOutputMediaFileUri(getActivity(), file);
 
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-
-        // start the image capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putString(KEY_IMAGE_STORAGE_PATH, imageStoragePath);
-    }
-    private void captureVideo() {
-        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-
-        File file = CameraUtils.getOutputMediaFile(MEDIA_TYPE_VIDEO);
-        if (file != null) {
-            imageStoragePath = file.getAbsolutePath();
-        }
-
-        Uri fileUri = CameraUtils.getOutputMediaFileUri(getActivity(), file);
-
-        // set video quality
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
-
-        // start the video capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-      if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                // Refreshing the gallery
-                CameraUtils.refreshGallery(getActivity(), imageStoragePath);
-
-                // video successfully recorded
-                // preview the recorded video
-                 video = Uri.parse(imageStoragePath);
-                binding.videoPreview.setVideoURI(video);
-                binding.videoPreview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mp.setLooping(true);
-                        binding.videoPreview.start();
-                    }
-                });
-
-            } else if (resultCode == RESULT_CANCELED) {
-                // user cancelled recording
-                Toast.makeText(getActivity(),
-                        "User cancelled video recording", Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                // failed to record video
-                Toast.makeText(getActivity(),
-                        "Sorry! Failed to record video", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        }
-    }
-    private void previewCapturedImage() {
-        try {
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void showPermissionsAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -479,5 +348,44 @@ private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
 
                     }
                 }).show();
+    }
+
+
+    public void updateProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+        @SuppressWarnings("VisibleForTests") long fileSize =
+                taskSnapshot.getTotalByteCount();
+
+        @SuppressWarnings("VisibleForTests")
+        long uploadBytes = taskSnapshot.getBytesTransferred();
+
+        long progress = (100 * uploadBytes) / fileSize;
+
+        ProgressBar progressBar = binding.pbar;
+        progressBar.setProgress((int) progress);
+    }
+
+    public void record(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        videouri = data.getData();
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                binding.videoPreview.setVideoURI(videouri);
+                Toast.makeText(getActivity(), "Video saved to:\n" +
+                        videouri, Toast.LENGTH_LONG).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getActivity(), "Video recording cancelled.",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), "Failed to record video",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

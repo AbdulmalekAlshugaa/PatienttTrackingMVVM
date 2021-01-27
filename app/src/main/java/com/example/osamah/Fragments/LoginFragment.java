@@ -45,35 +45,45 @@ public class LoginFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
-        userViewModel  = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         userViewModel.getFirebaseUserMutableLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
-                if(firebaseUser !=null){
+                if (firebaseUser != null) {
                     // got to maibn
                     db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if(task.isSuccessful()){
+                                    if (task.isSuccessful()) {
                                         String whichUser = task.getResult().getString("confirmPhoneNumber");
-                                        if(whichUser.equals("P")){
-                                            Intent intent = new Intent(getActivity(), ControllerActivity.class);
-                                            startActivity(intent);
-                                        }else if (whichUser.equals("D")) {
-                                            Intent intent = new Intent(getActivity(), DoctorActivites.class);
-                                            startActivity(intent);
+                                        if (whichUser != null) {
+                                            if (whichUser.equals("P")) {
+                                                Intent intent = new Intent(getActivity(), ControllerActivity.class);
+                                                startActivity(intent);
+                                            } else if (whichUser.equals("D")) {
+                                                Intent intent = new Intent(getActivity(), DoctorActivites.class);
+                                                startActivity(intent);
+                                            } else {
+                                                Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
+                                                        .setTitle("Error")
+                                                        .setMessage("Something went wrong")
+                                                        .sneakError();
+                                            }
+                                        } else {
+                                            Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
+                                                    .setTitle("Error")
+                                                    .setMessage("Something went wrong")
+                                                    .sneakError();
                                         }
-                                    }else {
-                                        Log.d(TAG, "onComplete: Error ");
                                     }
 
 
                                 }
                             });
 
-                }else {
+                } else {
                     Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
                             .setTitle("Error")
                             .setMessage("Something went wrong")
@@ -87,7 +97,7 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = MloginfragmentBinding.inflate(inflater, container,false);
+        binding = MloginfragmentBinding.inflate(inflater, container, false);
         view = binding.getRoot();
         binding.LoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +106,6 @@ public class LoginFragment extends Fragment {
                 userViewModel.UserLogin(binding.EmailAddress.getText().toString(), binding.Passwords.getText().toString());
             }
         });
-
-
-
 
 
         return view;
