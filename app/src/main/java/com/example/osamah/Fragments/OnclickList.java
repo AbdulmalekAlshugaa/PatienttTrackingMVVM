@@ -3,6 +3,7 @@ package com.example.osamah.Fragments;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.osamah.R;
 import com.example.osamah.model.Notifications;
+import com.example.osamah.view.ListofSDocotrs;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +37,7 @@ public class OnclickList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onclick_list);
         String fullName = getIntent().getStringExtra("name");
+        String uid = getIntent().getStringExtra("uid");
         Log.d(TAG, "onCreate: "+getIntent().getStringExtra("email"));
 
         SubmitNote = findViewById(R.id.SubmitNote);
@@ -47,9 +50,15 @@ public class OnclickList extends AppCompatActivity {
         names.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // get user email and pass the user
+                Intent intent = new Intent(OnclickList.this, ListofSDocotrs.class);
+                startActivity(intent);
+                finish();
+
 
             }
         });
+
 
         graph.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -53,7 +53,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
                 Intent intent = new Intent(mCtxt, OnclickList.class);
                 intent.putExtra("name",seisureModelArrayList.get(position).getFullName());
                 intent.putExtra("email", seisureModelArrayList.get(position).getEmail());
+                intent.putExtra("uid", seisureModelArrayList.get(position).getUid());
                 mCtxt.startActivity(intent);
+
 
 
             }

@@ -36,7 +36,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Osamah">
-        <activity android:name=".view.ViewVideo"></activity>
+        <activity android:name=".view.ListofSDocotrs"></activity>
+        <activity android:name=".view.ViewVideo" />
         <activity android:name=".Fragments.OnclickList" />
         <activity android:name=".view.DoctorActivites" />
         <activity android:name=".view.BaseAuthActivity" />

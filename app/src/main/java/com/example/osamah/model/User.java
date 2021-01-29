@@ -7,16 +7,26 @@ public class User {
     private String email;
     private String password;
     private String contactNumber, confirmPhoneNumber;
+    private String Uid;
 
     public User() {
     }
 
-    public User(String fullName, String email, String password, String contactNumber, String confirmPhoneNumber) {
+    public User(String fullName, String email, String password, String contactNumber, String confirmPhoneNumber, String udi) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.contactNumber = contactNumber;
         this.confirmPhoneNumber = confirmPhoneNumber;
+        this.Uid = udi;
+    }
+
+    public String getUid() {
+        return Uid;
+    }
+
+    public void setUid(String uid) {
+        Uid = uid;
     }
 
     public String getFullName() {

@@ -61,9 +61,11 @@ public class DoctorActivites extends AppCompatActivity {
                                 if (userType.equals("P")) {
                                     String FullAName = snapshots.get(i).getString("fullName");
                                     String email = snapshots.get(i).getString("email");
+                                    String uid = snapshots.get(i).getString("uid");
                                     User user = new User();
                                     user.setFullName(FullAName);
                                     user.setEmail(email);
+                                    user.setUid(uid);
 
                                     jobPostslists.add(user);
                                 }

@@ -72,7 +72,7 @@ public class SingUpFragment extends Fragment {
                     String cPassword = binding.ConfirmPassword.getText().toString();
                     String ContactNumber = binding.ContactNumber.getText().toString();
                     User user = new User(fullName, email, password
-                            , ContactNumber, UserType);
+                            , ContactNumber, UserType, FirebaseAuth.getInstance().getCurrentUser().getUid());
                     userViewModel.addUserdetails(user);
                 } else {
                     Log.d(TAG, "onChanged: Error ");
@@ -131,7 +131,7 @@ public class SingUpFragment extends Fragment {
 
                 if (!email.isEmpty() || !fullName.isEmpty() || !password.isEmpty() || !ContactNumber.isEmpty()) {
                     user = new User(fullName, email, password
-                            , ContactNumber, UserType);
+                            , ContactNumber, UserType,FirebaseAuth.getInstance().getCurrentUser().getUid());
                     userViewModel.register(user);
 
                 } else {
