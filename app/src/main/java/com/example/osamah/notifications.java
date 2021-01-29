@@ -95,9 +95,6 @@ public class notifications extends Fragment {
                         seisureModelArrayList.add(notifications);
                     }
 
-
-
-
                 }
                 commentsListAdapter.notifyDataSetChanged();
             }

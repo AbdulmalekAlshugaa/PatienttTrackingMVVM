@@ -1,5 +1,6 @@
 package com.example.osamah.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,11 +8,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.osamah.R;
 import com.example.osamah.adapters.SeziureList_Adapter;
 import com.example.osamah.model.SeisureModel;
 import com.example.osamah.viewModel.SesiureViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -53,13 +59,32 @@ public class ListofSDocotrs extends AppCompatActivity {
     }
 
     public void listDate(){
-        for (int i=0; i<100; i++){
-            SeisureModel seisureModel = new SeisureModel();
-            seisureModel.setDate("12-12-2020");
-            seisureModel.setTime("12:30 PM");
-            seisureModelArrayList.add(seisureModel);
-        }
-        seziureList_adapter.notifyDataSetChanged();
+        FirebaseFirestore
+                .getInstance().collection("Seizure")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (int i=0; i<task.getResult().size(); i++){
+                                SeisureModel seisureModel = new SeisureModel();
+                                String date = task.getResult().getDocuments().get(i).getString("date");
+                                String seizureImage = task.getResult().getDocuments().get(i).getString("seizureImage");
+                                String time = task.getResult().getDocuments().get(i).getString("time");
+                                seisureModel.setDate(date);
+                                seisureModel.setTime(time);
+                                seisureModel.setSeizureImage(seizureImage);
+                                seisureModelArrayList.add(seisureModel);
+
+                            }
+                            seziureList_adapter.notifyDataSetChanged();
+                        }else {
+                            Toast.makeText(ListofSDocotrs.this, "Error while loading",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+
 
     }
 
