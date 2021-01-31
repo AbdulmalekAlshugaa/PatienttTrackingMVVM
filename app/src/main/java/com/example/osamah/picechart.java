@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -30,7 +32,7 @@ public class picechart extends Fragment {
     View view;
     private static String TAG = "MainActivity";
 
-    private float[] yData = {25.3f, 10.6f, 66.76f};
+    private float[] yData ;
     private String[] xData = {"Activites", "Triggers" , "Locations" };
     PieChart pieChart;
 
@@ -67,6 +69,30 @@ public class picechart extends Fragment {
         view =  inflater.inflate(R.layout.fragment_picechart2, container, false);
 
         pieChart = (PieChart) view.findViewById(R.id.idPieChart);
+        Button button = view.findViewById(R.id.triggersData);
+        Button button2 = view.findViewById(R.id.Activity);
+        Button button3 = view.findViewById(R.id.Location);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yData = new float[]{25.3f, 10.6f, 66.76f};
+                addDataSet();
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yData = new float[]{3.3f, 15.6f, 6.76f};
+                addDataSet();
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yData = new float[]{67.3f, 15.6f, 67.76f};
+                addDataSet();
+            }
+        });
 
 
         pieChart.setRotationEnabled(true);
@@ -77,32 +103,8 @@ public class picechart extends Fragment {
         pieChart.setTransparentCircleAlpha(0);
         pieChart.setCenterText("Average");
         pieChart.setCenterTextSize(10);
-        addDataSet();
-        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                Log.d(TAG, "onValueSelected: Value select from chart.");
-                Log.d(TAG, "onValueSelected: " + e.toString());
-                Log.d(TAG, "onValueSelected: " + h.toString());
 
-                int pos1 = e.toString().indexOf("(sum): ");
-                String sales = e.toString().substring(pos1 + 7);
 
-                for(int i = 0; i < yData.length; i++){
-                    if(yData[i] == Float.parseFloat(sales)){
-                        pos1 = i;
-                        break;
-                    }
-                }
-                String employee = xData[pos1 + 1];
-
-            }
-
-            @Override
-            public void onNothingSelected() {
-
-            }
-        });
         return view;
     }
     private void addDataSet() {

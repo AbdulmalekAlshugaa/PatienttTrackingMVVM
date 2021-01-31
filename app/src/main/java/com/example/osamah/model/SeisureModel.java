@@ -1,13 +1,15 @@
 package com.example.osamah.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.crypto.AEADBadTagException;
 
 public class SeisureModel {
     private String seizureImage;
     private String date,time,seizureLen,trigger,activity,location, note;
-    private Integer mTriggers,mActivity,mLocaiton;
+    private Integer mActivity,mLocaiton;
+    HashMap<String, Object> triggersList;
     private static  ArrayList<SeisureModel> seisureModelArrayList = new ArrayList<>();
     private String UID;
 
@@ -16,7 +18,7 @@ public class SeisureModel {
 
 
     public SeisureModel(String seizureImage, String date, String time, String seizureLen, String trigger,
-                        String activity, String location, String note, String UID, Integer mTriggers, Integer mActivity, Integer mLocaiton) {
+                        String activity, String location, String note, String UID, HashMap<String, Object> triggersList, Integer mActivity, Integer mLocaiton) {
         this.seizureImage = seizureImage;
         this.date = date;
         this.time = time;
@@ -26,18 +28,18 @@ public class SeisureModel {
         this.location = location;
         this.note = note;
         this.UID = UID;
-        this.mTriggers = mTriggers;
+        this.triggersList = triggersList;
         this.mActivity = mActivity;
         this.mLocaiton = mLocaiton;
 
     }
 
-    public Integer getmTriggers() {
-        return mTriggers;
+    public HashMap<String, Object> getTriggersList() {
+        return triggersList;
     }
 
-    public void setmTriggers(Integer mTriggers) {
-        this.mTriggers = mTriggers;
+    public void setTriggersList(HashMap<String, Object> triggersList) {
+        this.triggersList = triggersList;
     }
 
     public Integer getmActivity() {

@@ -131,7 +131,7 @@ public class SingUpFragment extends Fragment {
 
                 if (!email.isEmpty() || !fullName.isEmpty() || !password.isEmpty() || !ContactNumber.isEmpty()) {
                     user = new User(fullName, email, password
-                            , ContactNumber, UserType,FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            , ContactNumber, UserType,FirebaseAuth.getInstance().getUid());
                     userViewModel.register(user);
 
                 } else {

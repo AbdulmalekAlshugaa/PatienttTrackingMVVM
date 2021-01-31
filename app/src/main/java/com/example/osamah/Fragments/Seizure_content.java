@@ -43,11 +43,15 @@ import com.example.osamah.R;
 
 import com.example.osamah.helper.CameraUtils;
 import com.example.osamah.model.SeisureModel;
+import com.example.osamah.model.UserActivites;
 import com.example.osamah.view.SaplashScreen;
 import com.example.osamah.viewModel.SesiureViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -64,7 +68,9 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -76,13 +82,13 @@ import static com.example.osamah.helper.constants.Triggers;
 
 
 public class Seizure_content extends Fragment {
-  com.example.osamah.databinding.CamreContentBinding binding;
+    com.example.osamah.databinding.CamreContentBinding binding;
     private View view;
 
     private SesiureViewModel sesiureViewModel;
     private static final String TAG = "Seizure_content";
     String mTrigger, mActivity, mLocation;
-    String getDate,getTime;
+    String getDate, getTime;
 /// video
 
     private Uri videouri;
@@ -93,32 +99,34 @@ public class Seizure_content extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     static final int REQUEST_VIDEO_CAPTURE = 1;
-    Uri video ;
+    Uri video;
 
     ProgressDialog mProgressDialog;
     StorageReference storageRef;
+    int mFivercounter, mCounter2, mCouner3; // that is will be triggers based on the usr selection in orde to increase the number of the triggers . counter
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //if()
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        videoref =storageRef.child("/videos" + "/userIntro.3gp");
+        videoref = storageRef.child("/videos" + "/userIntro.3gp");
 
 
-        if(SingealtonLocalData.getInstance(getActivity()).getLocalUserData() == null){
+        if (SingealtonLocalData.getInstance(getActivity()).getLocalUserData() == null) {
             Log.d(TAG, "onCreate: we are null");
-            UserPerf userPerf = new UserPerf(0,0,0);
+            UserPerf userPerf = new UserPerf(0, 0, 0);
             SingealtonLocalData.getInstance(getActivity()).SaveUserLocalData(userPerf);
             SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNoactivites();
         }
- 
+
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Please wait, Uploading");
-        sesiureViewModel  = ViewModelProviders.of(this).get(SesiureViewModel.class);
+        sesiureViewModel = ViewModelProviders.of(this).get(SesiureViewModel.class);
         sesiureViewModel.getSeisureModelMutableLiveData().observe(this, new Observer<SeisureModel>() {
             @Override
             public void onChanged(SeisureModel seisureModel) {
-                if(seisureModel.getDate() !=null){
+                if (seisureModel.getDate() != null) {
                     // show successful message
                     mProgressDialog.dismiss();
                     Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
@@ -126,7 +134,7 @@ public class Seizure_content extends Fragment {
                             .setMessage("Data has added successfully")
                             .sneakSuccess();
                     mProgressDialog.dismiss();
-                }else {
+                } else {
                     mProgressDialog.dismiss();
                 }
             }
@@ -139,12 +147,12 @@ public class Seizure_content extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = com.example.osamah.databinding.CamreContentBinding.inflate(inflater, container,false);
+        binding = com.example.osamah.databinding.CamreContentBinding.inflate(inflater, container, false);
         view = binding.getRoot();
         binding.Trigger.setItems(Triggers);
         binding.Location.setItems(Location);
         binding.Activity.setItems(Activities);
-   ;
+        ;
         // set li
         binding.videoPreview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +170,6 @@ public class Seizure_content extends Fragment {
         });
 
 
-
         return view;
     }
 
@@ -173,7 +180,31 @@ public class Seizure_content extends Fragment {
         binding.Trigger.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-             mTrigger = String.valueOf(item);
+                Log.d(TAG, "onItemSelected: postion of triggers" + position);
+                if (position == 1) {
+                    if (SingealtonLocalData.getInstance(getActivity()).getTrigger() == 0) {
+                        mFivercounter = mFivercounter + 1;
+                    } else {
+                        mFivercounter = SingealtonLocalData.getInstance(getActivity()).getTrigger() + 1;
+                    }
+                    SingealtonLocalData.getInstance(getActivity()).SaveTriggers(mFivercounter);
+                } else if (position == 2) {
+                    if (SingealtonLocalData.getInstance(getActivity()).getTrigger2() == 0) {
+                        mFivercounter = mFivercounter + 1;
+                    } else {
+                        mFivercounter = SingealtonLocalData.getInstance(getActivity()).getTrigger2()+ 1;
+                    }
+                    SingealtonLocalData.getInstance(getActivity()).SaveTriggers(mFivercounter);
+
+                }else  {
+                    if (SingealtonLocalData.getInstance(getActivity()).getTrigger2() == 0) {
+                        mFivercounter = mFivercounter + 1;
+                    } else {
+                        mFivercounter = SingealtonLocalData.getInstance(getActivity()).getTrigger2()+ 1;
+                    }
+                    SingealtonLocalData.getInstance(getActivity()).SaveTriggers(mFivercounter);
+                }
+                mTrigger = String.valueOf(item);
             }
         });
         binding.Activity.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
@@ -193,9 +224,9 @@ public class Seizure_content extends Fragment {
             @Override
             public void onClick(View view) {
                 final Calendar c = Calendar.getInstance();
-               int mYear = c.get(Calendar.YEAR);
-               int mMonth = c.get(Calendar.MONTH);
-               int mDay = c.get(Calendar.DAY_OF_MONTH);
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
                         R.style.DialogTheme,
@@ -203,8 +234,8 @@ public class Seizure_content extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-                                 getDate = year + "-" + monthOfYear + "-" + dayOfMonth;
-                                 binding.Date.setText(getDate);
+                                getDate = year + "-" + monthOfYear + "-" + dayOfMonth;
+                                binding.Date.setText(getDate);
 
                             }
                         }, mYear, mMonth, mDay);
@@ -225,7 +256,7 @@ public class Seizure_content extends Fragment {
                         if (view.isShown()) {
                             myCalender.set(Calendar.HOUR_OF_DAY, hourOfDay);
                             myCalender.set(Calendar.MINUTE, minute);
-                            getTime = String.valueOf(hourOfDay +"\t:"+ minute);
+                            getTime = String.valueOf(hourOfDay + "\t:" + minute);
                             binding.Time.setText(getTime);
 
 
@@ -242,21 +273,40 @@ public class Seizure_content extends Fragment {
         binding.Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: ");
-                String note =  binding.Note.getText().toString();
-                String  leanth = binding.leanth.getText().toString();
-                if(note.isEmpty() || leanth.isEmpty()){
+                Log.d(TAG, "onClick: " + SingealtonLocalData.getInstance(getActivity()).getTrigger());
+
+                String note = binding.Note.getText().toString();
+                String leanth = binding.leanth.getText().toString();
+                if (note.isEmpty() || leanth.isEmpty()) {
                     Sneaker.with(getActivity()) // Activity, Fragment or ViewGroup
                             .setTitle("Error")
                             .setMessage("seems some filed are empty")
                             .sneakError();
-                }else {
+                } else {
 
                     mProgressDialog.show();
-                    int noActvites = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNoactivites()+1;
-                    int notrigger = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNotriggers()+1;
-                    int nolocation = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNolocations()+1;
+                    int noActvites = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNoactivites() + 1;
+                    int notrigger = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNotriggers() + 1;
+                    int nolocation = SingealtonLocalData.getInstance(getActivity()).getLocalUserData().getNolocations() + 1;
                     if (videouri != null) {
+
+                        HashMap<String, Object> listofTrigger = new HashMap<>();
+                        listofTrigger.put("fiver", SingealtonLocalData.getInstance(getActivity()).getTrigger());
+                        listofTrigger.put("illes", SingealtonLocalData.getInstance(getActivity()).getTrigger2()-3);
+                        listofTrigger.put("sleep", SingealtonLocalData.getInstance(getActivity()).getTrigger3()-4);
+                        HashMap<String, Object> listofActivites = new HashMap<>();
+                        listofTrigger.put("Falling Asleep", SingealtonLocalData.getInstance(getActivity()).getTrigger());
+                        listofTrigger.put("WakingUp", SingealtonLocalData.getInstance(getActivity()).getTrigger2()-3);
+                        listofTrigger.put("Phone", SingealtonLocalData.getInstance(getActivity()).getTrigger3()-2);
+                        HashMap<String, Object> listofLocation = new HashMap<>();
+                        listofTrigger.put("Home", SingealtonLocalData.getInstance(getActivity()).getTrigger()-1);
+                        listofTrigger.put("School", SingealtonLocalData.getInstance(getActivity()).getTrigger2()-2);
+                        listofTrigger.put("Others", SingealtonLocalData.getInstance(getActivity()).getTrigger3()-3);
+
+                        Log.d(TAG, "onClick triggers: " + SingealtonLocalData.getInstance(getActivity()).getTrigger());
+                        UserActivites userActivites = new UserActivites(listofTrigger);
+
+
                         videoref.putFile(videouri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -264,11 +314,23 @@ public class Seizure_content extends Fragment {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         String VidUrl = uri.toString();
-                                        SeisureModel seisureModel = new SeisureModel(VidUrl,getDate,getTime,leanth,mTrigger,mActivity,mLocation,note,
+                                        SeisureModel seisureModel = new SeisureModel(VidUrl, getDate, getTime, leanth, mTrigger, mActivity, mLocation, note,
                                                 FirebaseAuth.getInstance().getUid()
-                                                , notrigger,noActvites,nolocation);
+                                                , listofTrigger, noActvites, nolocation);
                                         sesiureViewModel.addSeisure(seisureModel);
-                                        Toast.makeText(getActivity(),"Upload complete",
+                                        FirebaseFirestore.getInstance().collection("triggers")
+                                                .document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                                                .set(userActivites)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(getActivity(), "Upload complete",
+                                                                    Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                });
+                                        Toast.makeText(getActivity(), "Upload complete",
                                                 Toast.LENGTH_LONG).show();
 
                                     }
@@ -282,7 +344,6 @@ public class Seizure_content extends Fragment {
                     }
 
 
-
                 }
 
 
@@ -290,15 +351,7 @@ public class Seizure_content extends Fragment {
         });
 
 
-
-
     }
-
-
-
-
-
-
 
 
     //
@@ -330,8 +383,6 @@ public class Seizure_content extends Fragment {
 
                 }).check();
     }
-
-
 
 
     private void showPermissionsAlert() {

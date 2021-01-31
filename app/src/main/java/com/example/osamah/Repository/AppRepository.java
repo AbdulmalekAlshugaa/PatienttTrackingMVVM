@@ -172,7 +172,7 @@ public class AppRepository {
                                 String time = snapshots.get(i).getString("time");
                                 String trigger = snapshots.get(i).getString("trigger");
                                 Log.d(TAG, "onComplete: "+trigger);
-                                SeisureModel seisureModel = new SeisureModel(seizureImage,date,time,seizureLen,trigger,activity,location,note, FirebaseAuth.getInstance().getUid(),0,0,0);
+                                SeisureModel seisureModel = new SeisureModel(seizureImage,date,time,seizureLen,trigger,activity,location,note, FirebaseAuth.getInstance().getUid(),null,0,0);
                                 SeisureModel.getSeisureModelArrayList().add(seisureModel);
                                 seisureModelMutableLiveData.setValue(seisureModel);
                             }
