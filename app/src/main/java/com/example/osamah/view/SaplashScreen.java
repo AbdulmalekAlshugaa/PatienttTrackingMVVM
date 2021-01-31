@@ -28,6 +28,7 @@ public class SaplashScreen extends AppCompatActivity {
         uptodown = AnimationUtils.loadAnimation(this,R.anim.uptodown);
         downtoup = AnimationUtils.loadAnimation(this,R.anim.downtoup);
         AppVerion  = findViewById(R.id.AppVerion);
+
         userNav();
     }
 
@@ -38,7 +39,7 @@ public class SaplashScreen extends AppCompatActivity {
             public void run(){
                 try {
                     sleep(1000);
-                        Intent intent = new Intent(getApplicationContext(), ControllerActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), BaseAuthActivity.class);
                         startActivity(intent);
                         finish();
 

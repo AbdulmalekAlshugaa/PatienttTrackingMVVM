@@ -3,6 +3,7 @@ package com.example.osamah;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -20,8 +21,17 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,24 +82,54 @@ public class picechart extends Fragment {
         Button button = view.findViewById(R.id.triggersData);
         Button button2 = view.findViewById(R.id.Activity);
         Button button3 = view.findViewById(R.id.Location);
+        FirebaseFirestore.getInstance().collection("triggers")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    String obj = task.getResult().getData().get("mTriggers").toString();
+
+                    try {
+                        JSONObject  jsonObj = new JSONObject(obj);
+                        String name = jsonObj.getString("Home");
+                        Log.d(TAG, "onComplete: sleep"+name);
+                    } catch (JSONException e) {
+                        Log.d(TAG, "onComplete: "+e.getMessage().toString());
+                        e.printStackTrace();
+                    }
+
+
+
+                }
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yData = new float[]{25.3f, 10.6f, 66.76f};
+                Random r = new Random();
+                int i1 = r.nextInt(80 - 70) + 89;
+                int i2= r.nextInt(90 - 80) + 40;
+                yData = new float[]{i1, 10.6f, i2};
                 addDataSet();
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yData = new float[]{3.3f, 15.6f, 6.76f};
+                Random r = new Random();
+                int i1 = r.nextInt(80 - 65) + 100;
+                yData = new float[]{3.3f, i1, 6.76f};
                 addDataSet();
             }
         });
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yData = new float[]{67.3f, 15.6f, 67.76f};
+                Random r = new Random();
+                int i1 = r.nextInt(80 - 65) + 65;
+                int i2= r.nextInt(80 - 56) + 40;
+                yData = new float[]{i1, i2, 67.76f};
                 addDataSet();
             }
         });
@@ -121,7 +161,7 @@ public class picechart extends Fragment {
         }
 
         //create the data set
-        PieDataSet pieDataSet = new PieDataSet(yEntrys, "Employee Sales");
+        PieDataSet pieDataSet = new PieDataSet(yEntrys, "Numbers of attacks");
         pieDataSet.setSliceSpace(2);
         pieDataSet.setValueTextSize(12);
 
