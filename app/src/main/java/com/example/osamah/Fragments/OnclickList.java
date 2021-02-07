@@ -2,6 +2,8 @@ package com.example.osamah.Fragments;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.osamah.R;
 import com.example.osamah.model.Notifications;
+import com.example.osamah.view.GraphNav;
 import com.example.osamah.view.ListofSDocotrs;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -63,6 +66,11 @@ public class OnclickList extends AppCompatActivity {
         graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // go to graphs area
+                Intent intent = new Intent(OnclickList.this, GraphNav.class);
+                startActivity(intent);
+
+
 
             }
         });

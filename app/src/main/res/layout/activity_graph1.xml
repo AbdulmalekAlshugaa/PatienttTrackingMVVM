@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.Graph1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/triggersData"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="Triggers"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Activity"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="Activities"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Location"
+                android:layout_margin="10dp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:text="Location"/>
+        </LinearLayout>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/idPieChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

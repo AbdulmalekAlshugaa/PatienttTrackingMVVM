@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.GraphNav">
+
+    <LinearLayout
+        android:id="@+id/ivBackPartimerDates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100"
+        android:background="@color/Blue"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:padding="16dp"
+            app:drawableLeftCompat="@drawable/ic_baseline_arrow_back_24"
+            app:drawableStartCompat="@drawable/ic_baseline_arrow_back_24" />
+
+        <TextView
+
+            android:id="@+id/TtileText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="90"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:text="Graphs"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:onClick="g1"
+            android:layout_margin="12sp"
+            android:id="@+id/Time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/timeserise"
+            android:textColor="@color/white"/>
+
+
+        <ImageView
+            android:onClick="g2"
+            android:layout_margin="12sp"
+            android:id="@+id/piCheart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Picehart"
+            android:src="@drawable/piechart"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+</LinearLayout>

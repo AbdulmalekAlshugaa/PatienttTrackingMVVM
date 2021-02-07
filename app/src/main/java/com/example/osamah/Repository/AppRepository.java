@@ -65,8 +65,14 @@ public class AppRepository {
                     firebaseUserMutableLiveData.postValue(firebaseAuth.getCurrentUser());
                 }else {
                     // create INterface here in order to pass an erro to the the view
+                    Log.d(TAG, "onComplete: "+task.getException().getMessage().toString());
                     Toast.makeText(application, "Error",Toast.LENGTH_LONG).show();
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: "+e.getMessage().toString());
             }
         });
     }
@@ -118,8 +124,10 @@ public class AppRepository {
 
                 if(task.isSuccessful()){
                     // put ser
+                    Log.d(TAG, "onComplete: user authenticate "+firebaseAuth.getCurrentUser());
                     firebaseUserMutableLiveData.postValue(firebaseAuth.getCurrentUser());
                 }else {
+                    Log.d(TAG, "onComplete: task"+task.getException().toString());
                     Toast.makeText(application, "Something went wrong ",Toast.LENGTH_LONG).show();
                     errorHandlling.setValue(task.getException().getMessage().toString());
                 }

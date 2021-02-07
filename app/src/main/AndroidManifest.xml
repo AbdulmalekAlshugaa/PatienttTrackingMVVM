@@ -36,7 +36,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Osamah">
-        <activity android:name=".view.Triggers"></activity>
+        <activity android:name=".view.Graph2"></activity>
+        <activity android:name=".view.Graph1" />
+        <activity android:name=".view.GraphNav" />
+        <activity android:name=".view.Triggers" />
         <activity android:name=".view.ListofSDocotrs" />
         <activity android:name=".view.ViewVideo" />
         <activity android:name=".Fragments.OnclickList" />
