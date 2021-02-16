@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -29,6 +30,7 @@ import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -36,6 +38,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 
+import com.example.osamah.Fragments.caching.Constants;
 import com.example.osamah.Fragments.caching.SingealtonLocalData;
 import com.example.osamah.Fragments.caching.UserPerf;
 import com.example.osamah.R;
@@ -67,6 +70,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -173,6 +177,7 @@ public class Seizure_content extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -220,26 +225,32 @@ public class Seizure_content extends Fragment {
                 mLocation = String.valueOf(item);
             }
         });
+        try {
+            binding.Date.setText(Constants.getCurrentDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         binding.Date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                        R.style.DialogTheme,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-                                getDate = year + "-" + monthOfYear + "-" + dayOfMonth;
-                                binding.Date.setText(getDate);
-
-                            }
-                        }, mYear, mMonth, mDay);
-                datePickerDialog.show();
+//                final Calendar c = Calendar.getInstance();
+//                int mYear = c.get(Calendar.YEAR);
+//                int mMonth = c.get(Calendar.MONTH);
+//                int mDay = c.get(Calendar.DAY_OF_MONTH);
+//
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+//                        R.style.DialogTheme,
+//                        new DatePickerDialog.OnDateSetListener() {
+//                            @Override
+//                            public void onDateSet(DatePicker view, int year,
+//                                                  int monthOfYear, int dayOfMonth) {
+//                                getDate = year + "-" + monthOfYear + "-" + dayOfMonth;
+//                                binding.Date.setText(getDate);
+//
+//                            }
+//                        }, mYear, mMonth, mDay);
+//                datePickerDialog.show();
             }
         });
         binding.Time.setOnClickListener(new View.OnClickListener() {
